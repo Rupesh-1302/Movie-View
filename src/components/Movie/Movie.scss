@@ -1,0 +1,10 @@
+.main-container{
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    .info-div{
+        position: absolute;
+        bottom: 50%;
+        left: 0;
+    }
+}
