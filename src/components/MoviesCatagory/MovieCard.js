@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 function MovieCard({ movie, genre }) {
@@ -10,8 +10,6 @@ function MovieCard({ movie, genre }) {
       .filter((elem) => {
         return elem;
       });
-    // console.log(tempgen.length);
-    // console.log(tempgen);
     return tempgen.map((gen, idx) => {
       if (idx === tempgen.length - 1) {
         return gen;

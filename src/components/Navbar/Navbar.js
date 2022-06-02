@@ -1,21 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { elementsContext } from "../../App";
 
-function Navbar({ Elements }) {
-  const [elements, setElements] = useState(Elements);
-  const updateElement = (element) => {
-    setElements((prevElements) => {
-      return prevElements.map((elem) => {
-        if (elem === element) {
-          return {
-            ...elem,
-            active: true,
-          };
-        }
-        return { ...elem, active: false };
-      });
-    });
-  };
+function Navbar() {
+  const { elements, updateElement } = useContext(elementsContext);
   const getElementList = (elements) => {
     return (
       <ul className="flex grow justify-center items-center">
@@ -42,7 +30,7 @@ function Navbar({ Elements }) {
   return (
     <div className="text-white p-5 flex ">
       <h1 className="text-2xl flex items-center">Discover</h1>
-      {elements ? getElementList(elements) : ""}
+      {getElementList(elements)}
       <h2 className="text-xs flex items-center pr-5">Search</h2>
     </div>
   );

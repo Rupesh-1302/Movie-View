@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import MovieCard from "./MovieCard";
+import AnimatePage from "../AnimatePage/AnimatePage";
+const api_key = process.env.REACT_APP_MOVIE_API_KEY;
 
 function Movies() {
   const params = useParams();
@@ -9,27 +11,31 @@ function Movies() {
   const [genre, setGenre] = useState(null);
   useEffect(() => {
     const fetchMovies = async () => {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${params.type}?api_key=411ffb46bcbfb785a4219f83d29c5b0a`
-      );
-      const genreReasponse = await axios.get(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=411ffb46bcbfb785a4219f83d29c5b0a`
-      );
-      setMovies(response.data.results);
-      setGenre(genreReasponse.data.genres);
-      return response.data.results;
+      const response = await Promise.all([
+        axios.get(
+          `https://api.themoviedb.org/3/movie/${params.type}?api_key=${api_key}`
+        ),
+        axios.get(
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}`
+        ),
+      ]);
+      setMovies(response[0].data.results);
+      setGenre(response[1].data.genres);
+      return response[0].data.results;
     };
     fetchMovies();
   }, [params]);
 
   return (
-    <div className="text-white flex flex-wrap justify-around">
-      {movies
-        ? movies.map((movie, idx) => {
+    <AnimatePage>
+      {movies ? (
+        <div className="text-white flex flex-wrap justify-around">
+          {movies.map((movie, idx) => {
             return <MovieCard movie={movie} genre={genre} key={idx} />;
-          })
-        : null}
-    </div>
+          })}
+        </div>
+      ) : null}
+    </AnimatePage>
   );
 }
 
